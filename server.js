@@ -1,9 +1,13 @@
 const express = require('express')
+const cors = require('cors')
 require('dotenv').config()
 require('./workers/emailWorker')   // arranca el worker
 const emailQueue = require('./queues/emailQueue')
 
 const app = express()
+app.use(cors({
+  origin: 'http://localhost:8080'
+}))
 app.use(express.json())
 
 app.get('/api/health', (req, res) => {
@@ -13,7 +17,7 @@ app.get('/api/health', (req, res) => {
 app.post('/api/send-email', async (req, res) => {
   const { correo, mensaje, nombre, apellido, celular } = req.body
 
-  if (!correo || !mensaje || !mensaje || !nombre || !apellido) {
+  if (!correo || !mensaje || !nombre || !apellido || !celular) {
     return res.status(400).json({ error: 'Faltan campos' })
   }
 
