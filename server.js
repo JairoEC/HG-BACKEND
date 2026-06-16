@@ -6,7 +6,9 @@ const emailQueue = require('./queues/emailQueue')
 
 const app = express()
 app.use(cors({
-  origin: 'http://test.stackpe.dev'
+  origin: 'http://test.stackpe.dev',
+  methods: ['GET', 'POST'],
+  credentials: true
 }))
 app.use(express.json())
 
